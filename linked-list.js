@@ -25,10 +25,11 @@ class LinkedList {
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
-    this.tail.next = newNode;
-    this.tail = newNode;
-
+    this.length += 1;
   }
 
   /** unshift(val): add new value to start of list. */
@@ -38,9 +39,12 @@ class LinkedList {
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
     }
-    newNode.next = this.head;
-    this.head = newNode;
+    if (this.length === 0) this.tail = this.head;
+    this.length += 1;
   }
 
   /** pop(): return & remove last item. */
@@ -54,6 +58,7 @@ class LinkedList {
         return currentNode.next;
       }
     }
+      this.length -= 1;
   }
 
   /** shift(): return & remove first item. */
@@ -73,6 +78,25 @@ class LinkedList {
 
   getAt(idx) {
 
+    if (idx >= this.length || idx < 0) {
+      throw new Error("Invalid index.");
+    }
+
+    if (idx === 0) {
+      return this.head.val;
+    }
+
+    let count = 0
+    let currentNode = this.head;
+
+    while (count < idx) {
+      count += 1;
+      currentNode = currentNode.next;
+      if (count === idx) {
+        return currentNode.val;
+      }
+    }
+
   }
 
   /** setAt(idx, val): set val at idx to val */
@@ -90,6 +114,38 @@ class LinkedList {
   /** removeAt(idx): return & remove item at idx, */
 
   removeAt(idx) {
+    if (idx >= this.length || idx < 0) {
+      throw new Error("Invalid index.");
+    }
+
+    if (idx === 0) {
+      let val = this.head.val;
+      this.head - this.head.next;
+      this.length -= 1;
+      if (this.length < 2) this.tail = this.head;
+      return val;
+    }
+
+    if (idx === this.length - 1) {
+      let val = this.tail.val;
+      this.pop();
+      return val;
+    }
+
+    let count = 0
+    let currentNode = this.head;
+    let prevNode;
+
+    while (count < idx) {
+      count += 1;
+      prevNode = currentNode;
+      currentNode = currentNode.next;
+      if (count === idx) {
+        prevNode.next = currentNode.next;
+        return currentNode.val;
+      }
+    }
+
 
   }
 
