@@ -66,7 +66,7 @@ class LinkedList {
   shift() {
     let currentNode = this.head;
     if (currentNode.next) {
-      currentNode.next = this.head
+      this.head = currentNode.next;
     } else {
       this.head = null;
       this.tail = null;
