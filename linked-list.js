@@ -64,23 +64,30 @@ class LinkedList {
   /** shift(): return & remove first item. */
 
   shift() {
+    if (!this.head) return;
+    
+    let val = this.head.val;
     let currentNode = this.head;
+
     if (currentNode.next) {
       this.head = currentNode.next;
+      this.length -= 1;
     } else {
       this.head = null;
       this.tail = null;
+      this.length -= 1;
     }
-    return currentNode;
+
+    return val;
   }
 
   /** getAt(idx): get val at idx. */
 
   getAt(idx) {
 
-    if (idx >= this.length || idx < 0) {
-      throw new Error("Invalid index.");
-    }
+    // if (idx >= this.length || idx < 0) {
+    //   throw new Error("Invalid index.");
+    // }
 
     if (idx === 0) {
       return this.head.val;
@@ -108,22 +115,53 @@ class LinkedList {
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
+    // if (idx >= this.length || idx < 0) {
+    //   throw new Error("Invalid index.");
+    // };
+
+    if (idx === 0) return this.unshift(val);
+    if (idx === this.length) return this.push(val);
+
+    let newNode = new Node(val);
+    let count = 0;
+    let currentNode = this.head;
+
+    while (count <= idx) {
+      count += 1;
+      if (count === idx) {
+        let next = currentNode.next;
+        currentNode.next = newNode;
+        newNode.next = next;
+        this.length += 1;
+        return;
+      };
+      currentNode = currentNode.next;
+    };
 
   }
 
   /** removeAt(idx): return & remove item at idx, */
 
   removeAt(idx) {
-    if (idx >= this.length || idx < 0) {
-      throw new Error("Invalid index.");
-    }
+    // if (idx >= this.length || idx < 0) {
+    //   throw new Error("Invalid index.");
+    // }
 
     if (idx === 0) {
       let val = this.head.val;
-      this.head - this.head.next;
-      this.length -= 1;
-      if (this.length < 2) this.tail = this.head;
-      return val;
+
+      if (this.length === 1) {
+        this.head = null;
+        this.tail = null;
+        this.length -= 1;
+        return val;
+      } else {
+        this.head = this.head.next;
+        if (this.length <= 2) this.tail = this.head;
+        this.length -= 1;
+        return val;
+      };
+
     }
 
     if (idx === this.length - 1) {
