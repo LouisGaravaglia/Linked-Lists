@@ -65,7 +65,7 @@ class LinkedList {
 
   shift() {
     if (!this.head) return;
-    
+
     let val = this.head.val;
     let currentNode = this.head;
 
@@ -109,6 +109,25 @@ class LinkedList {
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
+   // if (idx >= this.length || idx < 0) {
+    //   throw new Error("Invalid index.");
+    // };
+
+    if (idx === 0) this.head.val = val;
+    if (idx === this.length - 1) this.tail.val = val;
+
+    let count = 0;
+    let currentNode = this.head;
+
+    while (count <= idx) {
+      count += 1;
+      currentNode = currentNode.next;
+      if (count === idx) {
+        currentNode.val = val;
+        return;
+      };
+      
+    };
 
   }
 
