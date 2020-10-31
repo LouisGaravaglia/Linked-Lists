@@ -22,6 +22,7 @@ class LinkedList {
 
   push(val) {
     const newNode = new Node(val);
+
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -29,6 +30,7 @@ class LinkedList {
       this.tail.next = newNode;
       this.tail = newNode;
     }
+
     this.length += 1;
   }
 
@@ -36,6 +38,7 @@ class LinkedList {
 
   unshift(val) {
     const newNode = new Node(val);
+
     if (!this.head) {
       this.head = newNode;
       this.tail = newNode;
@@ -43,30 +46,25 @@ class LinkedList {
       newNode.next = this.head;
       this.head = newNode;
     }
+
     if (this.length === 0) this.tail = this.head;
     this.length += 1;
+
   }
 
   /** pop(): return & remove last item. */
 
   pop() {
-    // if (idx >= this.length || idx < 0) {
-    //   throw new Error("Invalid index.");
-    // }
 
+    if (!this.head) return;
+
+    if (this.length === 1) {
       let val = this.head.val;
-
-      if (this.length === 1) {
-        this.head = null;
-        this.tail = null;
-        this.length -= 1;
-        return val;
-      } else {
-        this.head = this.head.next;
-        if (this.length <= 2) this.tail = this.head;
-        this.length -= 1;
-        return val;
-      };
+      this.head = null;
+      this.tail = null;
+      this.length -= 1;
+      return val;
+    }
 
     let count = 0;
     let currentNode = this.head;
@@ -76,19 +74,20 @@ class LinkedList {
       count += 1;
       prevNode = currentNode;
       currentNode = currentNode.next;
-      if (count === this.length - 2) {
-        let tailVal = currentNode.next.val
-        this.tail = currentNode;
+      if (count === this.length - 1) {
+        let tailVal = currentNode.val
+        this.tail = prevNode;
+        this.length -= 1;
         return tailVal;
       }
     }
 
-      
   }
 
   /** shift(): return & remove first item. */
 
   shift() {
+
     if (!this.head) return;
 
     let val = this.head.val;
@@ -96,13 +95,12 @@ class LinkedList {
 
     if (currentNode.next) {
       this.head = currentNode.next;
-      this.length -= 1;
     } else {
       this.head = null;
       this.tail = null;
-      this.length -= 1;
     }
 
+    this.length -= 1;
     return val;
   }
 
@@ -110,9 +108,9 @@ class LinkedList {
 
   getAt(idx) {
 
-    // if (idx >= this.length || idx < 0) {
-    //   throw new Error("Invalid index.");
-    // }
+    if (idx >= this.length || idx < 0) {
+      return;
+    }
 
     if (idx === 0) {
       return this.head.val;
@@ -134,9 +132,10 @@ class LinkedList {
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
-   // if (idx >= this.length || idx < 0) {
-    //   throw new Error("Invalid index.");
-    // };
+
+   if (idx >= this.length || idx < 0) {
+      return;
+    };
 
     if (idx === 0) this.head.val = val;
     if (idx === this.length - 1) this.tail.val = val;
@@ -159,9 +158,6 @@ class LinkedList {
   /** insertAt(idx, val): add node w/val before idx. */
 
   insertAt(idx, val) {
-    // if (idx >= this.length || idx < 0) {
-    //   throw new Error("Invalid index.");
-    // };
 
     if (idx === 0) return this.unshift(val);
     if (idx === this.length) return this.push(val);
@@ -187,9 +183,10 @@ class LinkedList {
   /** removeAt(idx): return & remove item at idx, */
 
   removeAt(idx) {
-    // if (idx >= this.length || idx < 0) {
-    //   throw new Error("Invalid index.");
-    // }
+
+    if (idx >= this.length || idx < 0) {
+      return;
+    }
 
     if (idx === 0) {
       let val = this.head.val;
