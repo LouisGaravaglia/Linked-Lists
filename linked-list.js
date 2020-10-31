@@ -50,15 +50,40 @@ class LinkedList {
   /** pop(): return & remove last item. */
 
   pop() {
+    // if (idx >= this.length || idx < 0) {
+    //   throw new Error("Invalid index.");
+    // }
+
+      let val = this.head.val;
+
+      if (this.length === 1) {
+        this.head = null;
+        this.tail = null;
+        this.length -= 1;
+        return val;
+      } else {
+        this.head = this.head.next;
+        if (this.length <= 2) this.tail = this.head;
+        this.length -= 1;
+        return val;
+      };
+
+    let count = 0;
     let currentNode = this.head;
-    while (currentNode) {
-      currentNode = currentNode.next
-      if (!currentNode.next.next) {
+    let prevNode;
+
+    while (count < this.length) {
+      count += 1;
+      prevNode = currentNode;
+      currentNode = currentNode.next;
+      if (count === this.length - 2) {
+        let tailVal = currentNode.next.val
         this.tail = currentNode;
-        return currentNode.next;
+        return tailVal;
       }
     }
-      this.length -= 1;
+
+      
   }
 
   /** shift(): return & remove first item. */
@@ -209,6 +234,19 @@ class LinkedList {
   /** average(): return an average of all values in the list */
 
   average() {
+    if (this.length === 0) {
+      return 0;
+    } 
+
+    let total = 0;
+    let currentNode = this.head;
+
+    while (currentNode) {
+      total += currentNode.val;
+      currentNode = currentNode.next;
+    }
+
+    return total / (this.length);
     
   }
 }
